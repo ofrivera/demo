@@ -1,0 +1,28 @@
+provider "google" {
+  credentials = file("<Your-Credentials-File>")
+  project     = "<Your-Project-ID>"
+  region      = "us-central1"
+}
+
+resource "google_compute_instance" "ubuntu_vm" {
+  name         = "ubuntu-instance"
+  machine_type = "e2-medium"
+  zone         = "us-central1-a"
+
+  boot_disk {
+    initialize_params {
+      image = "ubuntu-os-cloud/ubuntu-2004-lts"
+    }
+  }
+
+  network_interface {
+    network = "default"
+    access_config {
+      // Ephemeral IP
+    }
+  }
+
+  metadata = {
+    ssh-keys = "ubuntu:${file("<Your-Public-Key-File>")}
+  }
+}
