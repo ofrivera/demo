@@ -1,0 +1,32 @@
+provider "google" {
+  credentials = file("<YOUR-CREDENTIALS-FILE>.json")
+  project     = "<YOUR-PROJECT-ID>"
+  region      = "us-central1"
+  zone        = "us-central1-c"
+}
+
+resource "google_compute_instance" "ubuntu-vm" {
+  name         = "ubuntu-vm"
+  machine_type = "e2-medium"
+  zone         = "us-central1-c"
+
+  boot_disk {
+    initialize_params {
+      image = "ubuntu-os-cloud/ubuntu-2004-lts"
+    }
+  }
+
+  network_interface {
+    network = "default"
+    access_config {
+    }
+  }
+
+  metadata = {
+    ssh-keys = "ubuntu:${file("<YOUR-PUBLIC-KEY-FILE>.pub")}"
+  }
+
+  service_account {
+    scopes = ["userinfo-email", "compute-ro", "storage-ro"]
+  }
+}
