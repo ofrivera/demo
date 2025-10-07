@@ -33,7 +33,7 @@ spec:
       
 ---
 apiVersion: autoscaling/v2beta2
-kind: HorizontalPodAutoscaler
+kind: HorizontalPod Autoscaler
 metadata:
   name: backend-v1-hpa
   namespace: demo
@@ -43,7 +43,7 @@ spec:
     kind: Deployment
     name: backend-v1
   minReplicas: 1
-  maxReplicas: 4
+  maxReplicas: 3
   metrics:
   - type: Resource
     resource:
