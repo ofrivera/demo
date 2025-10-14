@@ -2,7 +2,7 @@ hellopy-dev:
   name: hellopy-dev
   namespace: hellopy
   project: devel-1234
-  replicaCount: 2
+  replicaCount: 3
   deploymentContainer:
     port: 5000
     command: ['./entrypoint.sh']
@@ -18,26 +18,4 @@ hellopy-dev:
       failureThreshold: 3
       initialDelaySeconds: 0
       periodSeconds: 10
-      successThreshold: 1
-      timeoutSeconds: 1
-    startupProbe:
-      path: /
-      failureThreshold: 3
-      initialDelaySeconds: 0
-      periodSeconds: 10
-      successThreshold: 1
-      timeoutSeconds: 1
-  image:
-    repository: us.gcr.io/devel-1234/hellopy
-    tag: latest
-  resources:
-    limits:
-      cpu: 200m
-      memory: 256Mi
-    requests:
-      cpu: 100m
-      memory: 128Mi
-  apm:
-    enabled: true
-  env:
-    LOG_LEVEL: warning
+      successThresh...
