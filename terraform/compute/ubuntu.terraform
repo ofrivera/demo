@@ -1,0 +1,33 @@
+provider "google" {
+  project = "gcp-project-id" # Replace with your GCP Project ID
+  region  = "us-central1"
+}
+
+resource "google_compute_instance" "ubuntu_vm" {
+  project      = "gcp-project-id"  # Replace with your GCP Project ID
+  zone         = "us-central1-a"
+  name         = "ubuntu-compute-vm"
+  machine_type = "e2-medium"
+
+  boot_disk {
+    initialize_params {
+      image = "ubuntu-os-cloud/ubuntu-2004-lts"
+      size  = 50
+      type  = "pd-standard"
+    }
+  }
+
+  network_interface {
+    network = "default"
+    access_config {
+      // Ephemeral IP
+    }
+  }
+
+  labels = {
+    environment = "development"
+    owner       = "kagent"
+  }
+
+  tags = ["http-server", "https-server"]
+}
