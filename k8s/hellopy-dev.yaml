@@ -2,7 +2,7 @@ hellopy-dev:
   name: hellopy-dev
   namespace: hellopy
   project: devel-1234
-  replicaCount: 2
+  replicaCount: 7
   deploymentContainer:
     port: 5000
     command: ['./entrypoint.sh']
@@ -18,26 +18,25 @@ hellopy-dev:
       failureThreshold: 3
       initialDelaySeconds: 0
       periodSeconds: 10
-      successThreshold: 1
-      timeoutSeconds: 1
-    startupProbe:
-      path: /
-      failureThreshold: 3
-      initialDelaySeconds: 0
-      periodSeconds: 10
-      successThreshold: 1
-      timeoutSeconds: 1
-  image:
-    repository: us.gcr.io/devel-1234/hellopy
-    tag: latest
-  resources:
-    limits:
-      cpu: 200m
-      memory: 256Mi
-    requests:
-      cpu: 100m
-      memory: 128Mi
-  apm:
-    enabled: true
-  env:
-    LOG_LEVEL: warning
+      successTh...  batchSize: 10000
+      region: eu-west-1
+      retentionInDays: 10
+    resourceTagging:
+      enabled: true
+      tags:
+        Environment: demo
+        Team: DevOps
+  autoScaleUIGroups:
+    replicas: 5
+    role: worker
+    settings:
+      maxReplicas: 10
+      minReplicas: 3
+      targetCPUUtilizationPercentage: 80
+      targetMemoryUtilizationPercentage: 75
+    taskGroup:
+      count: 3
+      role: controller
+      tags:
+        NumberOfTasks: '5'
+        UseSpotInstances: 'True'
