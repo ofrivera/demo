@@ -2,7 +2,7 @@ hellopy-dev:
   name: hellopy-dev
   namespace: hellopy
   project: devel-1234
-  replicaCount: 2
+  replicaCount: 7
   deploymentContainer:
     port: 5000
     command: ['./entrypoint.sh']
