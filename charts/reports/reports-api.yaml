@@ -29,7 +29,7 @@ reports-api:
       timeoutSeconds: 1
   image:
     repository: us-central1-docker.pkg.dev/hackathon-2025-af24/davecolab/reports
-    tag: latestv1
+    tag: latest
   resources:
     limits:
       cpu: 200m
@@ -61,4 +61,3 @@ reports-api:
     enabled: true
   env:
     LOG_LEVEL: warning
-
