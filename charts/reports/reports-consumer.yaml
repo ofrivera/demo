@@ -1,0 +1,44 @@
+reports-consumer:
+  name: reports-consumer
+  project: hackathon-2025-af24
+  additionalLabels:
+    env: development
+    team: sre
+  deploymentContainer:
+    port: 3000
+    livenessProbe:
+      path: /api/health/liveness
+      failureThreshold: 3
+      initialDelaySeconds: 0
+      periodSeconds: 10
+      successThreshold: 1
+      timeoutSeconds: 1
+    readinessProbe:
+      path: /api/health/readiness
+      failureThreshold: 3
+      initialDelaySeconds: 0
+      periodSeconds: 10
+      successThreshold: 1
+      timeoutSeconds: 1
+    startupProbe:
+      path: /api/health/liveness
+      failureThreshold: 3
+      initialDelaySeconds: 0
+      periodSeconds: 10
+      successThreshold: 1
+      timeoutSeconds: 1
+  image:
+    repository: us-central1-docker.pkg.dev/hackathon-2025-af24/davecolab/reports
+    tag: latest
+  resources:
+    limits:
+      cpu: 200m
+      memory: 256Mi
+    requests:
+      cpu: 100m
+      memory: 128Mi
+  apm:
+    enabled: true
+  env:
+    LOG_LEVEL: warning
+

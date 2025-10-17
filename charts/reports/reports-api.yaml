@@ -1,0 +1,64 @@
+reports-api:
+  name: reports-api
+  project: hackathon-2025-af24
+  additionalLabels:
+    env: development
+    team: sre
+  deploymentContainer:
+    port: 3000
+    livenessProbe:
+      path: /healthz
+      failureThreshold: 3
+      initialDelaySeconds: 0
+      periodSeconds: 10
+      successThreshold: 1
+      timeoutSeconds: 1
+    readinessProbe:
+      path: /healthz
+      failureThreshold: 3
+      initialDelaySeconds: 0
+      periodSeconds: 10
+      successThreshold: 1
+      timeoutSeconds: 1
+    startupProbe:
+      path: /healthz
+      failureThreshold: 3
+      initialDelaySeconds: 0
+      periodSeconds: 10
+      successThreshold: 1
+      timeoutSeconds: 1
+  image:
+    repository: us-central1-docker.pkg.dev/hackathon-2025-af24/davecolab/reports
+    tag: latest
+  resources:
+    limits:
+      cpu: 200m
+      memory: 256Mi
+    requests:
+      cpu: 100m
+      memory: 128Mi
+  ingress:
+    enabled: true
+    hosts:
+      - host: reports-api.trydave.com
+        annotations:
+          kubernetes.io/ingress.class: nginx-internal
+          kubernetes.io/tls-acme: "true"
+          cert-manager.io/cluster-issuer: letsencrypt
+        paths:
+          - backend:
+              service:
+                name: reports-api
+                port:
+                  number: 3000
+            path: /
+            pathType: ImplementationSpecific
+    tls:
+    - hosts:
+      - reports-api.trydave.com
+      secretName: reports-api-trydave-com-tls
+  apm:
+    enabled: true
+  env:
+    LOG_LEVEL: warning
+

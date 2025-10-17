@@ -1,0 +1,64 @@
+payments-api:
+  name: payments-api
+  project: hackathon-2025-af24
+  additionalLabels:
+    env: development
+    team: sre
+  deploymentContainer:
+    port: 5000
+    livenessProbe:
+      path: /api/health/liveness
+      failureThreshold: 3
+      initialDelaySeconds: 0
+      periodSeconds: 10
+      successThreshold: 1
+      timeoutSeconds: 1
+    readinessProbe:
+      path: /api/health/readiness
+      failureThreshold: 3
+      initialDelaySeconds: 0
+      periodSeconds: 10
+      successThreshold: 1
+      timeoutSeconds: 1
+    startupProbe:
+      path: /api/health/liveness
+      failureThreshold: 3
+      initialDelaySeconds: 0
+      periodSeconds: 10
+      successThreshold: 1
+      timeoutSeconds: 1
+  image:
+    repository: us-central1-docker.pkg.dev/hackathon-2025-af24/davecolab/payments
+    tag: latest
+  resources:
+    limits:
+      cpu: 200m
+      memory: 256Mi
+    requests:
+      cpu: 100m
+      memory: 128Mi
+  ingress:
+    enabled: true
+    hosts:
+      - host: payments-api.trydave.com
+        annotations:
+          kubernetes.io/ingress.class: nginx-internal
+          kubernetes.io/tls-acme: "true"
+          cert-manager.io/cluster-issuer: letsencrypt
+        paths:
+          - backend:
+              service:
+                name: payments-api
+                port:
+                  number: 5000
+            path: /
+            pathType: ImplementationSpecific
+    tls:
+    - hosts:
+      - payments-api.trydave.com
+      secretName: payments-api-trydave-com-tls
+  apm:
+    enabled: true
+  env:
+    LOG_LEVEL: warning
+

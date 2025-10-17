@@ -1,0 +1,66 @@
+sidehustle-api:
+  name: sidehustle-api
+  project: hackathon-2025-af24
+  additionalLabels:
+    env: development
+    team: sre
+  deploymentContainer:
+    port: 8080
+    livenessProbe:
+      path: /api/health/liveness
+      failureThreshold: 3
+      initialDelaySeconds: 0
+      periodSeconds: 10
+      successThreshold: 1
+      timeoutSeconds: 1
+    readinessProbe:
+      path: /api/health/readiness
+      failureThreshold: 3
+      initialDelaySeconds: 0
+      periodSeconds: 10
+      successThreshold: 1
+      timeoutSeconds: 1
+    startupProbe:
+      path: /api/health/liveness
+      failureThreshold: 3
+      initialDelaySeconds: 0
+      periodSeconds: 10
+      successThreshold: 1
+      timeoutSeconds: 1
+  image:
+    repository: us-central1-docker.pkg.dev/hackathon-2025-af24/davecolab/sidehustle
+    tag: latest
+  resources:
+    limits:
+      cpu: 200m
+      memory: 256Mi
+    requests:
+      cpu: 100m
+      memory: 128Mi
+  ingress:
+    enabled: true
+    hosts:
+      - host: sidehustle-api.trydave.com
+        annotations:
+          kubernetes.io/ingress.class: nginx-internal
+          kubernetes.io/tls-acme: "true"
+          cert-manager.io/cluster-issuer: letsencrypt
+        paths:
+          - backend:
+              service:
+                name: sidehustle-api
+                port:
+                  number: 8080
+            path: /
+            pathType: ImplementationSpecific
+    tls:
+    - hosts:
+      - sidehustle-api.trydave.com
+      secretName: sidehustle-api-trydave-com-tls
+  apm:
+    enabled: true
+  env:
+    LOG_LEVEL: warning
+    GCS_BUCKET_NAME: "hackathon-2025-test-bucket"
+    GCP_PROJECT_ID: "hackathon-2025-af24"
+    PORT: "8080"

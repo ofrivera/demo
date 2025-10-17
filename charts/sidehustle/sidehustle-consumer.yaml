@@ -1,34 +1,34 @@
-hellopy-dev:
-  name: hellopy-dev
-  namespace: hellopy
-  project: devel-1234
-  replicaCount: 2
+sidehustle-consumer:
+  name: sidehustle-consumer
+  project: hackathon-2025-af24
+  additionalLabels:
+    env: development
+    team: sre
   deploymentContainer:
-    port: 5000
-    command: ['./entrypoint.sh']
+    port: 8080
     livenessProbe:
-      path: /
+      path: /api/health/liveness
       failureThreshold: 3
       initialDelaySeconds: 0
       periodSeconds: 10
       successThreshold: 1
       timeoutSeconds: 1
     readinessProbe:
-      path: /
+      path: /api/health/readiness
       failureThreshold: 3
       initialDelaySeconds: 0
       periodSeconds: 10
       successThreshold: 1
       timeoutSeconds: 1
     startupProbe:
-      path: /
+      path: /api/health/liveness
       failureThreshold: 3
       initialDelaySeconds: 0
       periodSeconds: 10
       successThreshold: 1
       timeoutSeconds: 1
   image:
-    repository: us.gcr.io/devel-1234/hellopy
+    repository: us-central1-docker.pkg.dev/hackathon-2025-af24/davecolab/sidehustle
     tag: latest
   resources:
     limits:
@@ -41,3 +41,6 @@ hellopy-dev:
     enabled: true
   env:
     LOG_LEVEL: warning
+    GCS_BUCKET_NAME: "hackathon-2025-test-bucket"
+    GCP_PROJECT_ID: "hackathon-2025-af24"
+    PORT: "8080"
