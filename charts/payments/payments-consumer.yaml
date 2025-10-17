@@ -33,10 +33,10 @@ payments-consumer:
   resources:
     limits:
       cpu: 200m
-      memory: 128Mi
+      memory: 300Mi
     requests:
       cpu: 100m
-      memory: 64Mi
+      memory: 150Mi
   apm:
     enabled: true
   env:
