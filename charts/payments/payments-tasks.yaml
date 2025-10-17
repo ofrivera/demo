@@ -12,7 +12,7 @@ payments-tasks:
       initialDelaySeconds: 0
       periodSeconds: 10
       successThreshold: 1
-      timeoutSeconds: 1
+      timeoutSeconds: 2
     readinessProbe:
       path: /api/health/readiness
       failureThreshold: 3
@@ -41,4 +41,3 @@ payments-tasks:
     enabled: true
   env:
     LOG_LEVEL: warning
-
