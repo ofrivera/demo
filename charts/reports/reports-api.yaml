@@ -6,22 +6,22 @@ reports-api:
     team: sre
   deploymentContainer:
     port: 3000
-    livenessProbe:
-      path: /healthz
+    livenessProbes:
+      path: /api/health/liveness
       failureThreshold: 3
       initialDelaySeconds: 0
       periodSeconds: 10
       successThreshold: 1
       timeoutSeconds: 1
     readinessProbe:
-      path: /healthz
+      path: /api/health/liveness
       failureThreshold: 3
       initialDelaySeconds: 0
       periodSeconds: 10
       successThreshold: 1
       timeoutSeconds: 1
     startupProbe:
-      path: /healthz
+      path: /api/health/liveness
       failureThreshold: 3
       initialDelaySeconds: 0
       periodSeconds: 10
