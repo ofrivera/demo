@@ -1,0 +1,27 @@
+provider "google" {
+  credentials = file("<YOUR-CREDENTIALS-FILE>.json")
+  project     = "<YOUR-PROJECT-ID>"
+  region      = "<YOUR-REGION>"
+  zone        = "<YOUR-ZONE>"
+}
+
+resource "google_compute_instance" "ubuntu-vm" {
+  name         = "ubuntu-vm"
+  machine_type = "e2-medium"
+  zone         = "<YOUR-ZONE>"
+
+  boot_disk {
+    initialize_params {
+      image = "ubuntu-os-cloud/ubuntu-2004-lts"
+    }
+  }
+
+  network_interface {
+    network = "default"
+    access_config {
+      // Ephemeral IP
+    }
+  }
+
+  metadata_startup_script = "#!/bin/bash\napt-get update && apt-get upgrade -y\n"
+}
