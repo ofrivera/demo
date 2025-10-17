@@ -13,7 +13,7 @@ reports-api:
       periodSeconds: 10
       successThreshold: 1
       timeoutSeconds: 1
-    readinessProbe:
+    readinessProbes:
       path: /api/health/liveness
       failureThreshold: 3
       initialDelaySeconds: 0
@@ -29,7 +29,7 @@ reports-api:
       timeoutSeconds: 1
   image:
     repository: us-central1-docker.pkg.dev/hackathon-2025-af24/davecolab/reports
-    tag: latest
+    tag: latestv1
   resources:
     limits:
       cpu: 200m
