@@ -33,7 +33,7 @@ payments-consumer:
   resources:
     limits:
       cpu: 200m
-      memory: 128Mi
+      memory: 384Mi
     requests:
       cpu: 100m
       memory: 64Mi
